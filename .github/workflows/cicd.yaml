@@ -1,0 +1,36 @@
+name: deploy to amazone ecr
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+
+      - name: configure aws credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ AWS_REGION }}
+
+      - name: login to amazon ecr
+        id: login-ecr
+        uses: aws-actions/amazone-ecr-login@v1
+
+      - name: build, tag, and push image to amazone ecr
+        id: build-image
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          IMAGE_TAG: ${{ github.sha }}
+        run: |
+          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
