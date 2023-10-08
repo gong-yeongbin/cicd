@@ -1,12 +1,10 @@
 version: "3"
 services:
-  db:
+  postgres:
     image: postgres:alpine
     container_name: postgres
     ports:
       - "5432:5432"
-    volumes:
-      - postgres_volume:/var/lib/postgres
     environment:
       POSTGRES_USER: user
       POSTGRES_PASSWORD: 1111
