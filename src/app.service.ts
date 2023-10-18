@@ -1,5 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { WINSTON_MODULE_NEST_PROVIDER, WinstonLogger } from 'nest-winston';
+import * as process from 'process';
 
 @Injectable()
 export class AppService {
@@ -8,7 +9,12 @@ export class AppService {
 		private readonly logger: WinstonLogger
 	) {}
 	getHello(): string {
-		this.logger.log(process.env.AWS_ACCESS_KEY);
-		return 'Hello World!!!!!!';
+		try {
+			this.logger.log('hello world!!!!');
+		} catch (e) {
+			console.log(e);
+		}
+
+		return process.env.NODE_ENV;
 	}
 }
