@@ -4,16 +4,13 @@ import * as process from 'process';
 
 @Injectable()
 export class AppService {
-	constructor(
-		@Inject(WINSTON_MODULE_NEST_PROVIDER)
-		private readonly logger: WinstonLogger
-	) {}
+	constructor() {} // private readonly logger: WinstonLogger // @Inject(WINSTON_MODULE_NEST_PROVIDER)
 	getHello(): string {
-		try {
-			this.logger.log('hello world!!!!');
-		} catch (e) {
-			console.log(e);
-		}
+		// try {
+		// 	this.logger.log('hello world!!!!');
+		// } catch (e) {
+		// 	console.log(e);
+		// }
 
 		return process.env.NODE_ENV;
 	}
