@@ -17,11 +17,12 @@ import * as WinstonCloudWatch from 'winston-cloudwatch';
 							format: format.combine(format.colorize(), format.simple()),
 					  })
 					: new WinstonCloudWatch({
+							awsOptions: {
+								credentials: { accessKeyId: process.env.AWS_ACCESS_KEY, secretAccessKey: process.env.AWS_SECRET_KEY },
+								region: process.env.AWS_REGION,
+							},
 							logGroupName: 'nestjs-app-logs',
 							logStreamName: 'nestjs-app-logs-test',
-							awsAccessKeyId: process.env.AWS_ACCESS_KEY,
-							awsSecretKey: process.env.AWS_SECRET_KEY,
-							awsRegion: process.env.AWS_REGION,
 							messageFormatter: ({ level, message, additionalInfo }) => `[${level}] : ${message} \nAdditional Info: ${JSON.stringify(additionalInfo)}}`,
 					  }),
 			],

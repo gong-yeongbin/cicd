@@ -4,7 +4,7 @@ import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
 // import { TypeOrmModule } from '@nestjs/typeorm';
 import config from './configs/configratioin';
-// import { LoggerModule } from './modules/logger/logger.module';
+import { LoggerModule } from './modules/logger/logger.module';
 
 @Module({
 	imports: [
@@ -25,7 +25,7 @@ import config from './configs/configratioin';
 		// 		synchronize: false,
 		// 	}),
 		// }),
-		// LoggerModule,
+		LoggerModule,
 	],
 	controllers: [AppController],
 	providers: [AppService],
