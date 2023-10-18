@@ -8,7 +8,7 @@ export class AppService {
 		private readonly logger: WinstonLogger
 	) {}
 	getHello(): string {
-		this.logger.log('hello world!!!!');
+		this.logger.log(process.env.AWS_ACCESS_KEY);
 		return 'Hello World!!!!!!';
 	}
 }
