@@ -1,17 +1,12 @@
-import { Inject, Injectable } from '@nestjs/common';
-import { WINSTON_MODULE_NEST_PROVIDER, WinstonLogger } from 'nest-winston';
-import * as process from 'process';
+import { Injectable } from '@nestjs/common';
+// import { WINSTON_MODULE_NEST_PROVIDER, WinstonLogger } from 'nest-winston';
 
 @Injectable()
 export class AppService {
 	constructor() {} // private readonly logger: WinstonLogger // @Inject(WINSTON_MODULE_NEST_PROVIDER)
 	getHello(): string {
-		// try {
-		// 	this.logger.log('hello world!!!!');
-		// } catch (e) {
-		// 	console.log(e);
-		// }
+		// this.logger.log('hello world!!!!');
 
-		return process.env.NODE_ENV;
+		return process.env.AWS_REGION;
 	}
 }
