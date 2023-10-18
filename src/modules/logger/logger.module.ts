@@ -12,7 +12,7 @@ import * as WinstonCloudWatch from 'winston-cloudwatch';
 				format.printf((info) => `${info.timestamp} [${info.level}] : ${info.message}`)
 			),
 			transports: [
-				process.env.NODE_ENV === 'prod'
+				process.env.NODE_ENV === 'dev'
 					? new transports.Console({
 							format: format.combine(format.colorize(), format.simple()),
 					  })
