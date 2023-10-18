@@ -2,9 +2,8 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
-// import { TypeOrmModule } from '@nestjs/typeorm';
 import config from './configs/configratioin';
-import { LoggerModule } from './modules/logger/logger.module';
+import { LoggerModule } from './modules/logger.module';
 
 @Module({
 	imports: [
@@ -12,20 +11,8 @@ import { LoggerModule } from './modules/logger/logger.module';
 			isGlobal: true,
 			load: [config],
 		}),
-		// TypeOrmModule.forRootAsync({
-		// 	inject: [ConfigService],
-		// 	useFactory: async (configService: ConfigService) => ({
-		// 		type: 'postgres',
-		// 		host: configService.get<string>('postgre.host'),
-		// 		port: configService.get<number>('postgre.port'),
-		// 		username: configService.get<string>('postgre.username'),
-		// 		password: configService.get<string>('postgre.password'),
-		// 		database: configService.get<string>('postgre.database'),
-		// 		entities: [__dirname + `/entities/*.entity.{js,ts}`],
-		// 		synchronize: false,
-		// 	}),
-		// }),
 		LoggerModule,
+		// PostgresModule,
 	],
 	controllers: [AppController],
 	providers: [AppService],

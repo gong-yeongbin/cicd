@@ -8,7 +8,7 @@ export class AppService {
 		private readonly logger: WinstonLogger
 	) {}
 	getHello(): string {
-		this.logger.log('hello world!!!!');
+		this.logger.log('hello world!!!!', '????/');
 
 		return process.env.AWS_REGION;
 	}
