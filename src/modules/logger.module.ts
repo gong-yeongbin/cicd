@@ -27,7 +27,7 @@ import { ConfigService } from '@nestjs/config';
 									},
 									logGroupName: configService.get<string>('aws.cloudwatch.groupName'),
 									logStreamName: `${configService.get<string>('aws.cloudwatch.groupName')}-${configService.get<string>('app.env')}`,
-									messageFormatter: ({ level, message }) => `[${level}] : ${message}}}`,
+									messageFormatter: ({ level, message }) => `[${level}] : ${message}`,
 							  }),
 					],
 				};
