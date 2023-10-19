@@ -12,6 +12,6 @@ export class AppService {
 	getHello(): string {
 		this.logger.log(`hello world ${this.configService.get('app.env')}`);
 
-		return `hello world ${this.configService.get('app.env')}`;
+		return `hello world!!!!!(${this.configService.get('app.env')})`;
 	}
 }

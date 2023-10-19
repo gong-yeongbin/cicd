@@ -38,20 +38,20 @@ jobs:
 
       - name: Download Task Definition Template
         run: |
-          aws ecs describe-task-definition --task-definition nestjs-task --query taskDefinition > task-definition.json
+          aws ecs describe-task-definition --task-definition hanghae-task --query taskDefinition > task-definition.json
 
       - name: Fill in the new image ID in the Amazon ECS task definition
         id: setting-task-definition
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
           task-definition: task-definition.json
-          container-name: nestjs-container
+          container-name: hanghae-container
           image: ${{ steps.build-image.outputs.image }}
 
       - name: Deploy Amazon ECS task definition
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
         with:
           task-definition: ${{ steps.setting-task-definition.outputs.task-definition }}
-          service: nestjs-service
+          service: hanghae-service
           cluster: nestjs-cluster
           wait-for-service-stability: false
