@@ -8,15 +8,14 @@ on:
 jobs:
   deploy:
     name: Deploy
-    runs-on: ubuntu-latest
-
     env:
       AWS_ACCESS_KEY: ${{ secrets.AWS_ACCESS_KEY }}
       AWS_SECRET_KEY: ${{ secrets.AWS_SECRET_KEY }}
       AWS_REGION: ${{ secrets.AWS_REGION }}
       AWS_CLOUDWATCH_GROUP_NAME: ${{ secrets.AWS_CLOUDWATCH_GROUP_NAME }}
-
+    runs-on: ubuntu-latest
     steps:
+
       - name: checkout
         uses: actions/checkout@v2
 
