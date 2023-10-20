@@ -31,8 +31,9 @@ jobs:
       - name: environment docker build & push docker image to amazon ecr
         uses: docker/build-push-action@v2
         env:
-          ECR: ${{ steps.login-ecr.outputs.registry }}
-          TAG: ${{ github.sha }}
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REPOSITORY: repository-nestjs
+          IMAGE_TAG: ${{ github.sha }}
         with:
           context: .
           push: true
