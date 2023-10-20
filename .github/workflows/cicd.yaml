@@ -25,27 +25,37 @@ jobs:
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
 
-      - name: build, tag, and push image to amazone ecr
-        id: build-image
+      - name: set up docker buildx
+        uses: docker/setup-buildx-actioin@v2
+
+      - name: environment docker build & push docker image to amazon ecr
+        uses: docker/build-push-action@v2
         env:
-          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          ECR_REPOSITORY: repository-nestjs
-          PORT: 3000
-          AWS_ACCESS_KEY: ${{ secrets.AWS_ACCESS_KEY }}
-          AWS_SECRET_KEY: ${{ secrets.AWS_SECRET_KEY }}
-          AWS_REGION: ${{ secrets.AWS_REGION }}
-          AWS_CLOUDWATCH_GROUP_NAME: ${{ secrets.AWS_CLOUDWATCH_GROUP_NAME }}
-          IMAGE_TAG: ${{ github.sha }}
-        run: |
-          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG \
-          --build-arg PORT=$PORT \ 
-          --build-arg AWS_ACCESS_KEY=$AWS_ACCESS_KEY \ 
-          --build-arg AWS_SECRET_KEY=$AWS_SECRET_KEY \
-          --build-arg AWS_REGION=$AWS_REGION \
-          --build-arg AWS_CLOUDWATCH_GROUP_NAME=$AWS_CLOUDWATCH_GROUP_NAME .
-          
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-          echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+          ECR: ${{ steps.login-ecr.outputs.registry }}
+          TAG: ${{ github.sha }}
+        with:
+          context: .
+          push: true
+          tags: $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          build-args: |
+            PORT=3000
+            AWS_ACCESS_KEY=${{ secrets.AWS_ACCESS_KEY }}
+            AWS_SECRET_KEY=${{ secrets.AWS_SECRET_KEY }}
+            AWS_REGION=${{ secrets.AWS_REGION }}
+            AWS_CLOUDWATCH_GROUP_NAME=${{ secrets.AWS_CLOUDWATCH_GROUP_NAME }}
+
+#      - name: build, tag, and push image to amazone ecr
+#        id: build-image
+#        env:
+#          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+#          ECR_REPOSITORY: repository-nestjs
+#          IMAGE_TAG: ${{ github.sha }}
+#        run: |
+#          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+#          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+#          echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
 
       - name: Download Task Definition Template
         run: |
