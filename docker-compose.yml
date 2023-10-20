@@ -4,7 +4,7 @@ services:
     image: postgres:alpine
     container_name: postgres
     ports:
-      - "5432:5432"
+      - ${DB_PORT}:${DB_PORT}
     environment:
       POSTGRES_USER: user
       POSTGRES_PASSWORD: 1111
@@ -13,5 +13,11 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    environment:
+      - PORT=${PORT}
+      - AWS_ACCESS_KEY=${AWS_ACCESS_KEY}
+      - AWS_SECRET_KEY=${AWS_SECRET_KEY}
+      - AWS_REGION=${AWS_REGION}
+      - AWS_CLOUDWATCH_GROUP_NAME=${AWS_CLOUDWATCH_GROUP_NAME}
     ports:
-      - "3000:3000"
+      - ${PORT}:${PORT}
