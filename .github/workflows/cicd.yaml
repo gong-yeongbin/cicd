@@ -26,7 +26,7 @@ jobs:
         uses: aws-actions/amazon-ecr-login@v1
 
       - name: set up docker buildx
-        uses: docker/setup-buildx-actioin@v2
+        uses: docker/setup-buildx-action@v2
 
       - name: environment docker build & push docker image to amazon ecr
         uses: docker/build-push-action@v2
