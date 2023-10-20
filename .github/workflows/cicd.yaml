@@ -45,6 +45,17 @@ jobs:
             AWS_REGION=${{ secrets.AWS_REGION }}
             AWS_CLOUDWATCH_GROUP_NAME=${{ secrets.AWS_CLOUDWATCH_GROUP_NAME }}
 
+#      - name: build, tag, and push image to amazone ecr
+#        id: build-image
+#        env:
+#          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+#          ECR_REPOSITORY: repository-nestjs
+#          IMAGE_TAG: ${{ github.sha }}
+#        run: |
+#          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+#          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+#          echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+
       - name: Download Task Definition Template
         run: |
           aws ecs describe-task-definition --task-definition task-hanghae --query taskDefinition > task-definition.json
