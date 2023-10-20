@@ -8,28 +8,17 @@ on:
 jobs:
   deploy:
     name: Deploy
-    env:
-      AWS_ACCESS_KEY: ${{ secrets.AWS_ACCESS_KEY }}
-      AWS_SECRET_KEY: ${{ secrets.AWS_SECRET_KEY }}
-      AWS_REGION: ${{ secrets.AWS_REGION }}
-      AWS_CLOUDWATCH_GROUP_NAME: ${{ secrets.AWS_CLOUDWATCH_GROUP_NAME }}
     runs-on: ubuntu-latest
 
     steps:
-      - name: test
-        run: |
-          echo access : $AWS_ACCESS_KEY
-          echo secret : $AWS_SECRET_KEY
-          echo region : $AWS_REGION
-
       - name: checkout
         uses: actions/checkout@v2
 
       - name: configure aws credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
-          aws-access-key-id: $AWS_ACCESS_KEY
-          aws-secret-access-key: $AWS_SECRET_KEY
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
 
       - name: login to amazon ecr
@@ -44,7 +33,7 @@ jobs:
           IMAGE_TAG: ${{ github.sha }}
         run: |
           docker build 
-          --build-arg ARG PORT=3000 AWS_ACCESS_KEY=$AWS_ACCESS_KEY AWS_SECRET_KEY=$AWS_SECRET_KEY AWS_REGION=$AWS_REGION AWS_CLOUDWATCH_GROUP_NAME=$AWS_CLOUDWATCH_GROUP_NAME
+          --build-arg ARG PORT=3000 AWS_ACCESS_KEY=${{ secrets.AWS_ACCESS_KEY }} AWS_SECRET_KEY=${{ secrets.AWS_SECRET_KEY }} AWS_REGION=${{ secrets.AWS_REGION }} AWS_CLOUDWATCH_GROUP_NAME=${{ secrets.AWS_CLOUDWATCH_GROUP_NAME }}
           -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
           echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
