@@ -14,7 +14,13 @@ jobs:
       AWS_REGION: ${{ secrets.AWS_REGION }}
       AWS_CLOUDWATCH_GROUP_NAME: ${{ secrets.AWS_CLOUDWATCH_GROUP_NAME }}
     runs-on: ubuntu-latest
+
     steps:
+      - name: test
+        run: |
+          echo access : $AWS_ACCESS_KEY
+          echo secret : $AWS_SECRET_KEY
+          echo region : $AWS_REGION
 
       - name: checkout
         uses: actions/checkout@v2
